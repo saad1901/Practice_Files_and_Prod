@@ -1,2 +1,2 @@
 @echo off
-python "C:\Users\Mohammad Saad\Desktop\git_exec.py"
+python "F:\Desktop\testing_files\git_exec.py"
