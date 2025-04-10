@@ -1,0 +1,48 @@
+## How to Set Up a Task That Runs When Your Computer is Unlocked
+
+Follow these steps to create a scheduled task that runs your git auto-committer whenever you unlock your laptop:
+
+1. Press Win+R, type "taskschd.msc" and press Enter to open Task Scheduler
+
+2. In the Task Scheduler window, click on "Create Task" in the right-hand Actions pane
+
+3. On the General tab:
+   - Enter "GitAutoCommit_OnUnlock" as the Name
+   - Enter "Runs git auto commit script when computer is unlocked" as the Description
+   - Check "Run with highest privileges"
+   - Choose "Configure for: Windows 10"
+
+4. On the Triggers tab:
+   - Click "New..."
+   - Under "Begin the task", select "On workstation unlock"
+   - Make sure "Any user" is selected
+   - Click OK
+
+5. On the Actions tab:
+   - Click "New..."
+   - Action: Start a program
+   - Program/script: Browse to "F:\Desktop\testing_files\bat.bat"
+   - Click OK
+
+6. On the Conditions tab:
+   - Uncheck "Start the task only if the computer is on AC power"
+   - Leave other settings at their defaults
+
+7. On the Settings tab:
+   - Check "Run task as soon as possible after a scheduled start is missed"
+   - Set "If the task fails, restart every:" to 1 minute
+   - Set "Attempt to restart up to:" to 3 times
+   - Click OK to create the task
+
+8. When prompted, enter your password if required
+
+Your task is now set up and will run automatically whenever you unlock your computer.
+
+## Testing Your Task
+
+To test if the task is working:
+1. Lock your computer (Win+L)
+2. Unlock it by logging back in
+3. Check if the git commit script ran successfully
+
+You can verify this by looking at your git_pushes.txt file or checking your GitHub repository for new commits. 
