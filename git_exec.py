@@ -19,20 +19,28 @@ def add_time_to_file(file_path):
         file.write(current_time + "\n")
 
 def execute_batch_file(batch_file_path):
-    batch_dir = os.path.dirname(batch_file_path)
-    if batch_dir:
-        os.chdir(batch_dir)
-    subprocess.run(batch_file_path, shell=True, check=True)
+    try:
+        subprocess.run(batch_file_path, shell=True, check=True)
+        print(f"Successfully executed: {batch_file_path}")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing batch file: {e}")
+        return False
 
 if is_internet_available():
-    file_path = r"F:\Desktop\testing\git_pushes.txt"
-    batch_file_path = r"F:\Desktop\testing\git.bat"
+    file_path = r"F:\Desktop\testing_files\git_pushes.txt"
+    # Use absolute path to avoid directory confusion
+    batch_file_path = r"F:\Desktop\testing_files\bat.bat"
 
     quant = int(random.uniform(3, 5))
-    print(quant)
-    for _ in range(quant):
+    print(f"Will perform {quant} commits")
+    for i in range(quant):
         add_time_to_file(file_path)
-        execute_batch_file(batch_file_path)
+        success = execute_batch_file(batch_file_path)
+        if success:
+            print(f"Completed commit {i+1}/{quant}")
+        else:
+            print(f"Failed at commit {i+1}/{quant}")
         time.sleep(1)
 else:
     print("Internet Not Connected !!")
