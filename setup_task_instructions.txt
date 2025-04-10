@@ -21,7 +21,7 @@ Follow these steps to create a scheduled task that runs your git auto-committer 
 5. On the Actions tab:
    - Click "New..."
    - Action: Start a program
-   - Program/script: Browse to "F:\Desktop\testing_files\bat.bat"
+   - Program/script: Browse to "F:\Desktop\testing_files\file.bat"
    - Click OK
 
 6. On the Conditions tab:
@@ -30,8 +30,6 @@ Follow these steps to create a scheduled task that runs your git auto-committer 
 
 7. On the Settings tab:
    - Check "Run task as soon as possible after a scheduled start is missed"
-   - Set "If the task fails, restart every:" to 1 minute
-   - Set "Attempt to restart up to:" to 3 times
    - Click OK to create the task
 
 8. When prompted, enter your password if required
@@ -43,6 +41,4 @@ Your task is now set up and will run automatically whenever you unlock your comp
 To test if the task is working:
 1. Lock your computer (Win+L)
 2. Unlock it by logging back in
-3. Check if the git commit script ran successfully
-
-You can verify this by looking at your git_pushes.txt file or checking your GitHub repository for new commits. 
+3. Check your GitHub repository for new commits 
