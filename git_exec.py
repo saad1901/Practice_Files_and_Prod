@@ -44,97 +44,57 @@
 #         time.sleep(1)
 # else:
 #     print("Internet Not Connected !!")
-
 import subprocess
 from datetime import datetime
 import os
 import random
 import requests
 import time
-import sys
-import logging
-from typing import Optional
 
-try:
-    from tqdm import tqdm
-    HAS_TQDM = True
-except ImportError:
-    HAS_TQDM = False
-
-# ---------- Logging Setup ----------
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s] %(levelname)s - %(message)s"
-)
-
-# ---------- Internet Check ----------
-def is_internet_available(retries: int = 3, delay: int = 2) -> bool:
-    """Check internet connectivity."""
-    for attempt in range(retries):
-        try:
-            requests.get("http://www.google.com", timeout=3)
-            return True
-        except requests.ConnectionError:
-            logging.warning(f"Internet check failed (attempt {attempt+1})")
-            time.sleep(delay)
-    return False
-
-# ---------- File Handling ----------
-def reset_file(file_path: str) -> None:
-    """Clear existing content in the file."""
-    os.makedirs(os.path.dirname(os.path.abspath(file_path)), exist_ok=True)
-    with open(file_path, "w") as f:
-        f.write("")
-
-def append_current_time(file_path: str) -> None:
-    """Append current timestamp to the file."""
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_path, "a") as f:
-        f.write(current_time + "\n")
-
-# ---------- Batch File Execution ----------
-def execute_batch_file(batch_file_path: str) -> bool:
-    """Execute a .bat file."""
+def is_internet_available():
     try:
-        result = subprocess.run(batch_file_path, shell=True, check=True,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        logging.info(f"Batch Output:\n{result.stdout.strip()}")
+        requests.get("http://www.google.com", timeout=3)
         return True
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Batch execution failed:\n{e.stderr.strip()}")
+    except requests.ConnectionError:
         return False
 
-# ---------- Main Logic ----------
-def main(file_path: str, batch_file_path: str, num_commits: Optional[int] = None, reset: bool = False):
-    if not is_internet_available():
-        logging.error("Internet not available. Exiting.")
-        return
+def reset_file(file_path):
+    """Ensure directory exists and clear old content."""
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, "w") as file:
+        pass  # Clears the file
 
-    if reset:
-        reset_file(file_path)
-        logging.info(f"Cleared contents of {file_path}")
+def add_time_to_file(file_path):
+    """Append current timestamp to file."""
+    with open(file_path, "a") as file:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(current_time + "\n")
 
-    quant = num_commits if num_commits is not None else random.randint(3, 5)
-    logging.info(f"Starting {quant} commit operations")
+def execute_batch_file(batch_file_path):
+    try:
+        subprocess.run(batch_file_path, shell=True, check=True)
+        print(f"✅ Successfully executed: {batch_file_path}")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Error executing batch file: {e}")
+        return False
 
-    iterator = tqdm(range(quant), desc="Committing") if HAS_TQDM else range(quant)
-    for i in iterator:
-        append_current_time(file_path)
+# Main execution
+if is_internet_available():
+    file_path = r"F:\Desktop\testing_files\git_pushes.txt"
+    batch_file_path = r"F:\Desktop\testing_files\bat.bat"
+
+    reset_file(file_path)  # Clear previous content
+
+    quant = random.randint(3, 5)
+    print(f"Will perform {quant} commits...\n")
+    for i in range(quant):
+        add_time_to_file(file_path)
         success = execute_batch_file(batch_file_path)
         if success:
-            logging.info(f"Commit {i + 1}/{quant} succeeded")
+            print(f"✔ Commit {i+1} of {quant} done.\n")
         else:
-            logging.warning(f"Commit {i + 1}/{quant} failed")
+            print(f"✘ Commit {i+1} of {quant} failed.\n")
         time.sleep(1)
-
-# ---------- Entry Point ----------
-if __name__ == '__main__':
-    default_file_path = r"F:\Desktop\testing_files\git_pushes.txt"
-    default_batch_file_path = r"F:\Desktop\testing_files\bat.bat"
-
-    file_path = sys.argv[1] if len(sys.argv) > 1 else default_file_path
-    batch_file_path = sys.argv[2] if len(sys.argv) > 2 else default_batch_file_path
-    num_commits = int(sys.argv[3]) if len(sys.argv) > 3 else None
-    reset_flag = "--reset" in sys.argv
-
-    main(file_path, batch_file_path, num_commits, reset_flag)
+else:
+    print("⚠ Internet Not Connected !!")
