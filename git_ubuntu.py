@@ -9,7 +9,7 @@ import time
 BASE_DIR = "/media/saad/Downloads/Desktop/testing_files"
 FILE_PATH = os.path.join(BASE_DIR, "git_pushes.txt")
 REPO_PATH = BASE_DIR  # Assuming the repo is located here
-BRANCH_NAME = "main"  # Change if you are using another branch like 'master'
+BRANCH_NAME = "master"  # Change if you are using another branch like 'master'
 # =======================
 
 def is_internet_available():
