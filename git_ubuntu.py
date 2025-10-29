@@ -44,10 +44,10 @@ def run_command(command, cwd=None):
 
 def git_commit_and_push():
     """Add, commit, and push changes to the remote repository."""
-    print("📂 Performing git operations...\n")
+    print(">> Performing git operations...\n")
     commands = [
         "git add .",
-        f'git commit -m "Auto commit at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"',
+        f'git commit -m "commit at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"',
         f"git push origin {BRANCH_NAME}"
     ]
 
