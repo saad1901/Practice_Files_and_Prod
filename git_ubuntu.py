@@ -36,7 +36,7 @@ def run_command(command, cwd=None):
     """Run a shell command and return success status."""
     try:
         subprocess.run(command, shell=True, check=True, cwd=cwd)
-        print(f"✅ Successfully executed: {command}")
+        print(f"Successfully executed: {command}")
         return True
     except subprocess.CalledProcessError as e:
         print(f"❌ Error executing: {command}\n{e}")
@@ -60,7 +60,7 @@ def git_commit_and_push():
 # ================= MAIN EXECUTION =================
 if __name__ == "__main__":
     if is_internet_available():
-        print("🌐 Internet connected!\n")
+        print("Internet connected!\n")
         reset_file(FILE_PATH)
 
         quant = random.randint(3, 5)
@@ -73,10 +73,11 @@ if __name__ == "__main__":
             # Step 2: Commit and push
             success = git_commit_and_push()
             if success:
-                print(f"✔ Commit & Push {i+1} of {quant} done.\n")
+                print(f"Commit & Push {i+1} of {quant} done.\n")
             else:
-                print(f"✘ Commit & Push {i+1} of {quant} failed.\n")
+                print(f"Commit & Push {i+1} of {quant} failed.\n")
             
             time.sleep(1)  # Small delay between commits
     else:
         print("⚠ Internet Not Connected !!")
+        time.sleep(5)
