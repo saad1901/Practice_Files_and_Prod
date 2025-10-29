@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
         quant = random.randint(3, 5)
         print(f"Will perform {quant} commits and pushes...\n")
-
+        quant = 45
         for i in range(quant):
             # Step 1: Add timestamp to the file
             add_time_to_file(FILE_PATH)
