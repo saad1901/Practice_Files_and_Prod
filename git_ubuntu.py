@@ -63,7 +63,7 @@ if __name__ == "__main__":
         print("Internet connected!\n")
         reset_file(FILE_PATH)
 
-        quant = random.randint(5, 15)
+        quant = random.randint(7, 20)
         print(f"Will perform {quant} commits and pushes...\n")
         for i in range(quant):
             # Step 1: Add timestamp to the file
